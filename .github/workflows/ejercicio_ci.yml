@@ -5,13 +5,15 @@ on:
     branches: [config/ci]
 
 jobs:
+
   outdated_dependencies:
     steps:
       -name: Check for outdated dependencies
       run: |
         pip list --outdated
-        
+
   pytest:
+    needs: outdated_dependencies
     runs-on: ubuntu-latest
 
     services:
