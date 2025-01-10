@@ -6,14 +6,7 @@ on:
 
 jobs:
 
-  outdated_dependencies:
-    steps:
-      - name: Check for outdated dependencies
-      run: |
-        pip list --outdated
-
   pytest:
-    needs: outdated_dependencies
     runs-on: ubuntu-latest
 
     services:
@@ -29,7 +22,11 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@
+    
+    - name: Check for outdated dependencies
+      run: |
+        pip list --outdated
 
     - uses: actions/setup-python@v5
       with:
